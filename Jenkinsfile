@@ -30,15 +30,17 @@ pipeline {
 
       }
     }
+
     stage('Test') {
-            steps {
-                echo 'PHP Unit tests'
-                sh 'docker-compose -f test.yml up -d --build --remove-orphans'
-                sh 'sleep 5'
-                sh 'docker-compose -f test.yml exec -T fpm_test bash build/php_unit.sh'
-            }
-        }
-    stage('Unit Tests') {
+      steps {
+        echo 'PHP Unit tests'
+        sh 'docker-compose -f test.yml up -d --build --remove-orphans'
+        sh 'sleep 5'
+        sh 'docker-compose -f test.yml exec -T fpm_test bash build/php_unit.sh'
+      }
+    }
+
+    stage('SonarQube') {
       agent {
         docker {
           image 'maven:3.6.0-jdk-8-alpine'
@@ -47,124 +49,14 @@ pipeline {
         }
 
       }
-      when {
-        anyOf {
-          branch 'master'
-          branch 'develop'
-        }
-
-      }
-      post {
-        always {
-          junit 'target/surefire-reports/**/*.xml'
-        }
-
-      }
-      steps {
-        sh 'mvn test'
-      }
-    }
-
-    stage('Integration Tests') {
-      agent {
-        docker {
-          image 'maven:3.6.0-jdk-8-alpine'
-          args '-v /root/.m2/repository:/root/.m2/repository'
-          reuseNode true
-        }
-
-      }
-      when {
-        anyOf {
-          branch 'master'
-          branch 'develop'
-        }
-
-      }
-      post {
-        always {
-          junit 'target/failsafe-reports/**/*.xml'
-        }
-
-        success {
-          stash(name: 'artifact', includes: 'target/*.war')
-          stash(name: 'pom', includes: 'pom.xml')
-          archiveArtifacts 'target/*.war'
-        }
-
-      }
-      steps {
-        sh 'mvn verify -Dsurefire.skip=true'
-      }
-    }
-
-    stage('Code Quality Analysis') {
       post {
         always {
           recordIssues(aggregatingResults: true, tools: [javaDoc(), checkStyle(pattern: '**/target/checkstyle-result.xml'), findBugs(pattern: '**/target/findbugsXml.xml', useRankAsPriority: true), pmdParser(pattern: '**/target/pmd.xml')])
         }
 
       }
-      parallel {
-        stage('PMD') {
-          agent {
-            docker {
-              image 'maven:3.6.0-jdk-8-alpine'
-              args '-v /root/.m2/repository:/root/.m2/repository'
-              reuseNode true
-            }
-
-          }
-          steps {
-            sh ' mvn pmd:pmd'
-            step([$class: 'PmdPublisher', pattern: '**/target/pmd.xml'])
-          }
-        }
-
-        stage('Findbugs') {
-          agent {
-            docker {
-              image 'maven:3.6.0-jdk-8-alpine'
-              args '-v /root/.m2/repository:/root/.m2/repository'
-              reuseNode true
-            }
-
-          }
-          steps {
-            sh ' mvn findbugs:findbugs'
-            findbugs(pattern: '**/target/findbugsXml.xml')
-          }
-        }
-
-        stage('JavaDoc') {
-          agent {
-            docker {
-              image 'maven:3.6.0-jdk-8-alpine'
-              args '-v /root/.m2/repository:/root/.m2/repository'
-              reuseNode true
-            }
-
-          }
-          steps {
-            sh ' mvn javadoc:javadoc'
-            step([$class: 'JavadocArchiver', javadocDir: './target/site/apidocs', keepAll: 'true'])
-          }
-        }
-
-        stage('SonarQube') {
-          agent {
-            docker {
-              image 'maven:3.6.0-jdk-8-alpine'
-              args '-v /root/.m2/repository:/root/.m2/repository'
-              reuseNode true
-            }
-
-          }
-          steps {
-            sh " mvn sonar:sonar -Dsonar.host.url=$SONARQUBE_URL:$SONARQUBE_PORT"
-          }
-        }
-
+      steps {
+        sh " mvn sonar:sonar -Dsonar.host.url=$SONARQUBE_URL:$SONARQUBE_PORT"
       }
     }
 
