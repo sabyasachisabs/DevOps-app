@@ -5,15 +5,13 @@ pipeline {
       steps {
         checkout scm
         sh 'pwd'
-        sh '''$HOME
-$WORKSPACE'''
       }
     }
 
     stage('Build App') {
       agent {
         dockerfile {
-          filename '/var/jenkins_home/workspace/DevOps-app_develop/project/Dockerfile'
+          filename '$WORKSPACE/project/Dockerfile'
         }
 
       }
