@@ -3,7 +3,7 @@ version: '3.5'
 services:
 
   jenkins:
-    image: jenkinsci/blueocean
+    image: jenkinsci/blueocean:latest
     user: "root"
     volumes:
       - ./jenkins-data:/var/jenkins_home

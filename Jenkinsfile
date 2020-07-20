@@ -7,7 +7,7 @@ pipeline {
   NEXUS_PROTOCOL = "http"
   // Where your Nexus is running. In my case:
   //NEXUS_URL = "ec2-52-212-29-159.eu-west-1.compute.amazonaws.com:8081"
-  NEXUS_URL = 192.168.0.30:8081
+  NEXUS_URL = "192.168.0.30:8081"
   // Repository where we will upload the artifact
   NEXUS_REPOSITORY = "maven-snapshots"
   // Jenkins credential id to authenticate to Nexus OSS
@@ -34,8 +34,8 @@ pipeline {
     stage('Compile') {
      agent {
       docker {
-       image 'maven:3.6.0-jdk-8-alpine'
-       args '-v /root/.m2/repository:/root/.m2/repository'
+       image 'cytopia/phplint'
+       args 'run -it --rm -v $(pwd)/project:/data cytopia/phplint'
        // to use the same node and workdir defined on top-level pipeline for all docker agents
        reuseNode true
       }
