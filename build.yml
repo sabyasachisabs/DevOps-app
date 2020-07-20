@@ -1,12 +1,17 @@
 version: "3"
 
+volumes:
+  composer_cache:
+
 services:
   fpm_build:
-    build:
+    build: 
       context: .
-      dockerfile: Dockerfile-php
+      dockerfile: alpine-dockerfile
     command: ["composer", "install", "--no-dev"]
     environment:
      - APP_ENV=prod
     volumes:
-     - ./project/:/var/www/project
+      - ./project/:/var/www/project
+      - composer_cache:/root/.composer/cache
+

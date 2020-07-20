@@ -25,8 +25,6 @@ pipeline {
             sh 'docker-compose -f build.yml up --exit-code-from fpm_build --remove-orphans fpm_build'
             echo 'Building the docker images with the current git commit'
             sh 'docker build -f Dockerfile-php-production -t $NEXUS_URL/symfony_project_fpm:$GIT_COMMIT .'
-            sh 'docker build -f Dockerfile-nginx -t $NEXUS_URL/symfony_project_nginx:$GIT_COMMIT .'
-            sh 'docker build -f Dockerfile-db -t $NEXUS_URL/symfony_project_db:$GIT_COMMIT .'
           }
         }
 
