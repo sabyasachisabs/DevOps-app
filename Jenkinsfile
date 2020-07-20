@@ -11,7 +11,7 @@ pipeline {
     stage('Build App') {
       agent {
         dockerfile {
-          filename '$WORKSPACE/project/Dockerfile'
+          filename 'project/Dockerfile'
         }
 
       }
