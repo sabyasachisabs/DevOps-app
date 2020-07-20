@@ -8,42 +8,15 @@ pipeline {
       }
     }
 
-    stage('CheckStyle') {
-      parallel {
-        stage('CheckStyle') {
-          agent {
-            docker {
-              image 'maven:3.6.0-jdk-8-alpine'
-              args '-v /root/.m2/repository:/root/.m2/repository'
-              reuseNode true
-            }
-
-          }
-          steps {
-            sh ' mvn checkstyle:checkstyle'
-            step([$class: 'CheckStylePublisher',
-                                                                                                                                                   //canRunOnFailed: true,
-                                                                                                                                                   defaultEncoding: '',
-                                                                                                                                                   healthy: '100',
-                                                                                                                                                   pattern: '**/target/checkstyle-result.xml',
-                                                                                                                                                   unHealthy: '90',
-                                                                                                                                                   //useStableBuildAsReference: true
-                                                                                                                                                  ])
-          }
+    stage('Build App') {
+      agent {
+        dockerfile {
+          filename '/var/jenkins_home/workspace/DevOps-app_develop/project/Dockerfile'
         }
 
-        stage('') {
-          agent {
-            dockerfile {
-              filename '/var/jenkins_home/workspace/DevOps-app_develop/project/Dockerfile'
-            }
-
-          }
-          steps {
-            echo 'Build app docker image'
-          }
-        }
-
+      }
+      steps {
+        echo 'Build app docker image'
       }
     }
 
