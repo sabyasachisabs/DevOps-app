@@ -15,7 +15,7 @@ pipeline {
             docker {
               image 'cytopia/phplint'
               reuseNode true
-              args '--rm -v project:/data cytopia/phplint'
+              args '--rm -v ${WORKSPACE}/project:/data cytopia/phplint'
             }
 
           }
@@ -36,13 +36,13 @@ pipeline {
           steps {
             sh ' mvn checkstyle:checkstyle'
             step([$class: 'CheckStylePublisher',
-                                                                               //canRunOnFailed: true,
-                                                                               defaultEncoding: '',
-                                                                               healthy: '100',
-                                                                               pattern: '**/target/checkstyle-result.xml',
-                                                                               unHealthy: '90',
-                                                                               //useStableBuildAsReference: true
-                                                                              ])
+                                                                                           //canRunOnFailed: true,
+                                                                                           defaultEncoding: '',
+                                                                                           healthy: '100',
+                                                                                           pattern: '**/target/checkstyle-result.xml',
+                                                                                           unHealthy: '90',
+                                                                                           //useStableBuildAsReference: true
+                                                                                          ])
           }
         }
 
