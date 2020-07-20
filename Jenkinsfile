@@ -5,6 +5,8 @@ pipeline {
       steps {
         checkout scm
         sh 'pwd'
+        sh '''$HOME
+$WORKSPACE'''
       }
     }
 
