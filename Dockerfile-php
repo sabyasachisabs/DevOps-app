@@ -1,0 +1,10 @@
+FROM php:7-fpm-alpine
+RUN apk add --no-cache \
+        zlib-dev \
+        libxml2-dev \
+    && docker-php-ext-install \
+        pdo_mysql \
+        soap \
+        zip
+COPY ./project /var/www/project
+WORKDIR /var/www/project/
