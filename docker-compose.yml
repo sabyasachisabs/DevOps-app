@@ -27,6 +27,7 @@ services:
       - devops
   nexus:
     image: sonatype/nexus3
+    restart: always
     volumes:
       - ./nexus-data:/nexus-data sonatype/nexus3
     ports:

@@ -6,7 +6,8 @@ pipeline {
   // This can be http or https
   NEXUS_PROTOCOL = "http"
   // Where your Nexus is running. In my case:
-  NEXUS_URL = "ec2-52-212-29-159.eu-west-1.compute.amazonaws.com:8081"
+  //NEXUS_URL = "ec2-52-212-29-159.eu-west-1.compute.amazonaws.com:8081"
+  NEXUS_URL = 192.168.0.30:8081
   // Repository where we will upload the artifact
   NEXUS_REPOSITORY = "maven-snapshots"
   // Jenkins credential id to authenticate to Nexus OSS
@@ -16,7 +17,7 @@ pipeline {
     to obtains this address : $ docker-machine ip
     Linux: set localhost to SONARQUBE_URL
   */
-  SONARQUBE_URL = "http://192.168.99.100"
+  SONARQUBE_URL = "http://192.168.0.30"
   SONARQUBE_PORT = "9000"
  }
  options {
