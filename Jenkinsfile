@@ -4,6 +4,7 @@ pipeline {
     stage('SCM') {
       steps {
         checkout scm
+        sh 'pwd'
       }
     }
 
@@ -35,13 +36,13 @@ pipeline {
           steps {
             sh ' mvn checkstyle:checkstyle'
             step([$class: 'CheckStylePublisher',
-                                           //canRunOnFailed: true,
-                                           defaultEncoding: '',
-                                           healthy: '100',
-                                           pattern: '**/target/checkstyle-result.xml',
-                                           unHealthy: '90',
-                                           //useStableBuildAsReference: true
-                                          ])
+                                                       //canRunOnFailed: true,
+                                                       defaultEncoding: '',
+                                                       healthy: '100',
+                                                       pattern: '**/target/checkstyle-result.xml',
+                                                       unHealthy: '90',
+                                                       //useStableBuildAsReference: true
+                                                      ])
           }
         }
 
