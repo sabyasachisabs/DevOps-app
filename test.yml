@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  fpm_test:
+    build:
+      context: .
+      dockerfile: Dockerfile-php
+    networks:
+     - symfony
+
+networks:
+ symfony:

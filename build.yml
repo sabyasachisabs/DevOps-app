@@ -7,7 +7,7 @@ services:
   fpm_build:
     build: 
       context: .
-      dockerfile: alpine-dockerfile
+      dockerfile: Dockerfile-php
     command: ["composer", "install", "--no-dev"]
     environment:
      - APP_ENV=prod

@@ -23,28 +23,21 @@ pipeline {
             sh 'echo $GIT_COMMIT'
             echo 'Install non-dev composer packages and test a symfony cache clear'
             sh 'docker-compose -f build.yml up --exit-code-from fpm_build --remove-orphans fpm_build'
-            echo 'Building the docker images with the current git commit'
-            sh 'docker build -f Dockerfile-php-production -t $NEXUS_URL/symfony_project_fpm:$GIT_COMMIT .'
-          }
-        }
-
-        stage('CheckStyle') {
-          agent {
-            docker {
-              image 'maven:3.6.0-jdk-8-alpine'
-              args '-v /root/.m2/repository:/root/.m2/repository'
-              reuseNode true
-            }
-
-          }
-          steps {
-            sh ' mvn checkstyle:checkstyle'
+            echo 'Tagging the docker images with the current git commit'
+            sh 'docker tag fpm_build:latest 192.168.0.30:8081/symfony_project_fpm:$BUILD_TAG'
           }
         }
 
       }
     }
-
+    stage('Test') {
+            steps {
+                echo 'PHP Unit tests'
+                sh 'docker-compose -f test.yml up -d --build --remove-orphans'
+                sh 'sleep 5'
+                sh 'docker-compose -f test.yml exec -T fpm_test bash build/php_unit.sh'
+            }
+        }
     stage('Unit Tests') {
       agent {
         docker {

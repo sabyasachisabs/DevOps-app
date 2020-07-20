@@ -1,10 +1,24 @@
-FROM php:7-fpm-alpine
-RUN apk add --no-cache \
-        zlib-dev \
-        libxml2-dev \
-    && docker-php-ext-install \
-        pdo_mysql \
-        soap \
-        zip
+FROM alpine:edge
+
+RUN apk --update add wget \ 
+		     curl \
+		     git \
+		     php7 \
+		     php7-curl \
+		     php7-openssl \
+		     php7-iconv \
+		     php7-json \
+		     php7-mbstring \
+		     php7-phar \
+		     php7-dom --repository http://nl.alpinelinux.org/alpine/edge/testing/ && rm /var/cache/apk/*
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer 
+
+RUN mkdir -p /var/www/project
+
 COPY ./project /var/www/project
 WORKDIR /var/www/project/
+VOLUME /var/www/project
+
+CMD ["/bin/sh"]
+ENTRYPOINT ["/bin/sh", "-c"]
