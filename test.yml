@@ -6,7 +6,10 @@ services:
       context: .
       dockerfile: Dockerfile-php
     networks:
-     - symfony
+     - devops
+    volumes:
+      - ./project/:/var/www/project
+      - composer_cache:/root/.composer/cache
 
 networks:
- symfony:
+  devops:

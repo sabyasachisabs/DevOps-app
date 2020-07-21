@@ -1,3 +1,4 @@
+#Build this project with composer
 FROM alpine:edge
 
 RUN apk --update add wget \ 
@@ -13,12 +14,6 @@ RUN apk --update add wget \
 		     php7-dom --repository http://nl.alpinelinux.org/alpine/edge/testing/ && rm /var/cache/apk/*
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer 
-
-RUN mkdir -p /var/www/project
-
-COPY ./project /var/www/project
-WORKDIR /var/www/project/
-VOLUME /var/www/project
 
 CMD ["/bin/sh"]
 ENTRYPOINT ["/bin/sh", "-c"]
