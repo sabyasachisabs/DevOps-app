@@ -46,15 +46,6 @@ pipeline {
         sh 'docker tag localhost:5000/symfony_project_fpm:$BUILD_TAG localhost:5000/symfony_project_fpm:latest'
         sh 'docker push localhost:5000/symfony_project_fpm:$APP_VERSION'
         sh 'docker push localhost:5000/symfony_project_fpm:latest'
-        sh 'docker tag localhost:5000/symfony_project_nginx:$BUILD_TAG localhost:5000/symfony_project_nginx:$APP_VERSION'
-        sh 'docker tag localhost:5000/symfony_project_nginx:$BUILD_TAG localhost:5000/symfony_project_nginx:latest'
-        sh 'docker push localhost:5000/symfony_project_nginx:$APP_VERSION'
-        sh 'docker push localhost:5000/symfony_project_nginx:latest'
-        sh 'docker tag localhost:5000/symfony_project_db:$BUILD_TAG localhost:5000/symfony_project_db:$APP_VERSION'
-        sh 'docker tag localhost:5000/symfony_project_db:$BUILD_TAG localhost:5000/symfony_project_db:latest'
-        sh 'docker push localhost:5000/symfony_project_db:$APP_VERSION'
-        sh 'docker push localhost:5000/symfony_project_db:latest'
-
       }
     }
 

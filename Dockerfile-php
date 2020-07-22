@@ -1,4 +1,5 @@
 #Build this project with composer
+#Run composer install and it will update the project code
 FROM alpine:edge
 
 RUN apk --update add wget \ 
