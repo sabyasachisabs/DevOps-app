@@ -30,7 +30,7 @@ services:
     image: registry:2
     restart: always
     volumes:
-      - ./registry-data:/var/lib/registry
+      - /registry-data:/var/lib/registry
     ports:
       - "5000:5000"
     networks:
