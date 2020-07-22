@@ -1,7 +1,6 @@
 version: '3.5'
 
 services:
-
   jenkins:
     build: ./jenkins
     user: "root"
@@ -26,17 +25,20 @@ services:
       - "9092:9092"
     networks:
       - devops
-  nexus:
-    image: sonatype/nexus3
+
+  registry:
+    image: registry:2
     restart: always
     volumes:
-      - ./nexus-data:/nexus-data sonatype/nexus3
+      - ./registry-data:/var/lib/registry
     ports:
-      - "8081:8081"
+      - "5000:5000"
     networks:
       - devops
+
 
 networks:
   devops:
     name: devops
     driver: bridge
+    external: true
