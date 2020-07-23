@@ -50,9 +50,8 @@ pipeline {
       }
       steps {
         echo 'Deploying docker images'
-        sh 'docker tag localhost:5000/symfony_project_fpm:$BUILD_TAG localhost:5000/symfony_project_fpm:$APP_VERSION'
         sh 'docker tag localhost:5000/symfony_project_fpm:$BUILD_TAG localhost:5000/symfony_project_fpm:latest'
-        sh 'docker push localhost:5000/symfony_project_fpm:$APP_VERSION'
+        sh 'docker push localhost:5000/symfony_project_fpm:$BUILD_TAG'
         sh 'docker push localhost:5000/symfony_project_fpm:latest'
       }
     }
@@ -78,12 +77,6 @@ pipeline {
 
   }
   environment {
-    APP_VERSION = '1'
-    NEXUS_VERSION = 'nexus3'
-    NEXUS_PROTOCOL = 'http'
-    NEXUS_URL = '192.168.0.30:8081'
-    NEXUS_REPOSITORY = 'maven-snapshots'
-    NEXUS_CREDENTIAL_ID = 'nexus-credentials'
     SONARQUBE_URL = 'http://192.168.0.30'
     SONARQUBE_PORT = '9000'
   }
