@@ -50,14 +50,6 @@ pipeline {
     }
 
     stage('SonarQube') {
-      agent {
-        docker {
-          image 'maven:3.6.0-jdk-8-alpine'
-          args '-v /root/.m2/repository:/root/.m2/repository'
-          reuseNode true
-        }
-
-      }
       post {
         always {
           recordIssues(aggregatingResults: true, tools: [javaDoc(), checkStyle(pattern: '**/target/checkstyle-result.xml'), findBugs(pattern: '**/target/findbugsXml.xml', useRankAsPriority: true), pmdParser(pattern: '**/target/pmd.xml')])
@@ -65,7 +57,7 @@ pipeline {
 
       }
       steps {
-        sh " mvn sonar:sonar -Dsonar.host.url=$SONARQUBE_URL:$SONARQUBE_PORT"
+        echo 'This is PHP code analysis'
       }
     }
 
