@@ -1,0 +1,8 @@
+- name: Create a data container
+      docker_container:
+        name: php-small-application
+        image: devops-app_fpm_build:latest
+        state: present
+        recreate: yes
+        exposed_ports:
+                - 80:80
