@@ -1,5 +1,5 @@
 FROM ahmed24khaled/ubunutu-ssh-server
-MAINTAINER Ahmed KHALED "https://github.com/ahmed24khaled"
+MAINTAINER Sabs
 
 
 # create user - ansible - for ssh access and enable sudo operations
