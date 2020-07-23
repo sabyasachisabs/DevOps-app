@@ -7,4 +7,4 @@
     state: present
     recreate: yes
     exposed_ports:
-      - 80:80
+      - 8080:80
