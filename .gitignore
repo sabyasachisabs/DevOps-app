@@ -29,6 +29,8 @@ HELP.md
 jenkins-data
 sonarqube
 nexus-data
+registry-data
+
 
 ### VS Code ###
 .vscode/
