@@ -72,7 +72,7 @@ pipeline {
 
       }
       steps {
-        sh 'ansible-playbook -v -i ./ansible_provisioning/hosts --extra-vars "host=staging" ./ansible_provisioning/playbook.yml'
+        sh 'ansible-playbook -v -i ./ansible_provisioning/hosts --extra-vars "host=local" ./ansible_provisioning/playbook.yml'
       }
     }
 
