@@ -82,18 +82,10 @@ pipeline {
     }
     steps {
     echo 'Deploying docker images'
-    sh 'docker tag 192.168.0.30:8081/symfony_project_fpm:$BUILD_TAG 192.168.0.30:8081/symfony_project_fpm:$APP_VERSION'
-    sh 'docker tag 192.168.0.30:8081/symfony_project_fpm:$BUILD_TAG 192.168.0.30:8081/symfony_project_fpm:latest'
-    sh 'docker push 192.168.0.30:8081/symfony_project_fpm:$APP_VERSION'
-    sh 'docker push 192.168.0.30:8081/symfony_project_fpm:latest'
-    sh 'docker tag 192.168.0.30:8081/symfony_project_nginx:$BUILD_TAG 192.168.0.30:8081/symfony_project_nginx:$APP_VERSION'
-    sh 'docker tag 192.168.0.30:8081/symfony_project_nginx:$BUILD_TAG 192.168.0.30:8081/symfony_project_nginx:latest'
-    sh 'docker push 192.168.0.30:8081/symfony_project_nginx:$APP_VERSION'
-    sh 'docker push 192.168.0.30:8081/symfony_project_nginx:latest'
-    sh 'docker tag 192.168.0.30:8081/symfony_project_db:$BUILD_TAG 192.168.0.30:8081/symfony_project_db:$APP_VERSION'
-    sh 'docker tag 192.168.0.30:8081/symfony_project_db:$BUILD_TAG 192.168.0.30:8081/symfony_project_db:latest'
-    sh 'docker push 192.168.0.30:8081/symfony_project_db:$APP_VERSION'
-    sh 'docker push 192.168.0.30:8081/symfony_project_db:latest'
+    sh 'docker tag localhost:5000/symfony_project_fpm:$BUILD_TAG localhost:5000/symfony_project_fpm:$APP_VERSION'
+    sh 'docker tag localhost:5000/symfony_project_fpm:$BUILD_TAG localhost:5000/symfony_project_fpm:latest'
+    sh 'docker push localhost:5000/symfony_project_fpm:$APP_VERSION'
+    sh 'docker push localhost:5000/symfony_project_fpm:latest'
         }
     }
 
@@ -107,7 +99,6 @@ stage('Deploy to Test Servers') {
   }
   when {
     anyOf {
-      branch 'master'
       branch 'develop'
     }
 
@@ -119,15 +110,6 @@ stage('Deploy to Test Servers') {
   }
 }
 
-environment {
-NEXUS_VERSION = 'nexus3'
-NEXUS_PROTOCOL = 'http'
-NEXUS_URL = 'http://192.168.0.30:8081'
-NEXUS_REPOSITORY = 'maven-snapshots'
-NEXUS_CREDENTIAL_ID = 'nexus-credentials'
-SONARQUBE_URL = 'http://http://192.168.0.30/'
-SONARQUBE_PORT = '9000'
-}
 options {
 skipDefaultCheckout()
 }
