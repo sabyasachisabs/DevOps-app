@@ -10,5 +10,5 @@
   docker_container:
     name: php-small-application
     image: php-helloworld:latest
-    exposed_ports:
+    published_ports:
       - 8080:80
