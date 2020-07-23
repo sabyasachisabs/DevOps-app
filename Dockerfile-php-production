@@ -2,7 +2,7 @@
 
 
 FROM php:7.0-apache 
-COPY ./src/ /var/www/html
+COPY ./project/src/ /var/www/html
 
 
 #FROM php:7-fpm-alpine
