@@ -1,11 +1,18 @@
-FROM php:7-fpm-alpine
-RUN apk add --no-cache \
-        zlib-dev \
-        libxml2-dev \
-        libzip-dev \
-    && docker-php-ext-install \
-        pdo_mysql \
-        soap \
-        zip
-COPY ./project /var/www/project
-WORKDIR /var/www/project/
+#Copy the index.php file and bundle with the php apache image (when fpm is ready, this will be replaced by php FROM php:7-fpm-alpine)
+
+
+FROM php:7.0-apache 
+COPY ./src/ /var/www/html
+
+
+#FROM php:7-fpm-alpine
+#RUN apk add --no-cache \
+#        zlib-dev \
+#        libxml2-dev \
+#        libzip-dev \
+#    && docker-php-ext-install \
+#        pdo_mysql \
+#        soap \
+#        zip
+#COPY ./project/src/ /var/www/project
+#WORKDIR /var/www/project/

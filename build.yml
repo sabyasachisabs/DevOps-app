@@ -12,6 +12,6 @@ services:
     environment:
      - APP_ENV=prod
     volumes:
-      - ./project/:/var/www/project
+      - ./project/src/:/var/www/project
       - composer_cache:/root/.composer/cache
 

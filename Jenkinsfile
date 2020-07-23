@@ -31,7 +31,7 @@ pipeline {
       }
     }
 
-    stage('Test') {
+    stage('PHP Unit Tests') {
       steps {
         echo 'PHP Unit tests'
       }
