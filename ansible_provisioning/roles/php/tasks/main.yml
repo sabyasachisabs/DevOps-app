@@ -1,10 +1,14 @@
 ---
 
+- name: remove container
+  docker_container:
+    name: php-small-application
+    state: absent
+
+
 - name: Create a data container
   docker_container:
     name: php-small-application
     image: php-helloworld:latest
-    state: present
-    recreate: yes
     exposed_ports:
       - 8080:80
