@@ -45,7 +45,7 @@ pipeline {
             echo 'Install non-dev composer packages and test a symfony cache clear'
             sh 'docker-compose -f build.yml up --exit-code-from fpm_build --remove-orphans fpm_build'
             echo 'Building the docker images with the current git commit'
-            sh 'docker build -f Dockerfile-php-production -t 192.168.0.30:8081/symfony_project_fpm:$BUILD_TAG .'
+            sh 'docker build -f Dockerfile-php-production -t localhost:5000/symfony_project_fpm:$BUILD_TAG .'
           }
         }
 
