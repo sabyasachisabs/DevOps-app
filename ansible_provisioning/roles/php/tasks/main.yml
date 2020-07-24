@@ -1,14 +1,15 @@
 ---
 
-- name: remove container
-  docker_container:
-    name: "symfony_project_fpm:latest"
-    state: absent
+#- name: remove container
+#  docker_container:
+#    name: "symfony_project_fpm:latest"
+#    state: absent
 
 
 - name: Create a data container
   docker_container:
-    name: "symfony_project_fpm:latest" 
+    name: "" 
     image: "localhost:5000/symfony_project_fpm:latest"
-    published_ports:
+    recreate:  
+   published_ports:
       - 8080:80
